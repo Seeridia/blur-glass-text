@@ -2,7 +2,7 @@
 
 一个轻量、无依赖的 Web Component，用于在图片上创建优雅的毛玻璃文字效果。
 
-![组件效果演示](example.webp)
+![组件效果演示](image/example.webp)
 
 在线演示：[blur-text.seeridia.top](https://blur-text.seeridia.top)
 
@@ -77,12 +77,3 @@ glass-text::part(image) {
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 }
 ```
-
-## 本地演示
-
-1.  将 `index.html`, `glass-text.js`, 以及图片文件 (`1.jpeg`, `2.jpeg`, `3.jpeg`) 放在同一个文件夹下。
-2.  在浏览器中打开 `index.html` 文件即可查看交互式演示。
-
-## 📜 许可证
-
-本项目采用 [MIT](https://opensource.org/licenses/MIT) 许可证。
