@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Text</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', system-ui, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            height: 100vh;
+            gap: 0;
+        }
+
+        .preview-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            position: relative;
+        }
+
+        .demo-wrapper {
+            width: 90%;
+            max-width: 900px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .controls-section {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px 24px;
+            overflow-y: auto;
+        }
+
+        .controls-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            letter-spacing: -0.5px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+        }
+
+        .toggle-group {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .text-input:focus {
+            border-color: #007AFF;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .text-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .control {
+            margin-bottom: 24px;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .control-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .control-value {
+            font-size: 12px;
+            font-family: 'SF Mono', Monaco, monospace;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #007AFF;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .image-btn {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .image-btn.active {
+            background: #007AFF;
+            border-color: #007AFF;
+            color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+
+            .controls-section {
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                max-height: 50vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="preview-section">
+            <div class="demo-wrapper">
+                <glass-text id="interactive-demo" image-src="1.jpeg" blur="10" brightness="0.8" font-size="160px"
+                    font-weight="600" text-x="50%" text-y="50%"
+                    font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif">
+                    Loading...
+                </glass-text>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <h1 class="controls-title">Glass Text</h1>
+
+            <div class="section">
+                <div class="section-label">文字内容</div>
+                <div class="toggle-group">
+                    <button class="toggle-btn active" data-mode="clock">时钟</button>
+                    <button class="toggle-btn" data-mode="custom">自定义</button>
+                </div>
+                <div class="text-input-group hidden" id="custom-text-group">
+                    <input type="text" class="text-input" id="custom-text-input" placeholder="输入文字内容" maxlength="20">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">效果</div>
+                <div class="control">
+                    <div class="control-label">
+                        <span class="control-name">模糊</span>
+                        <span id="blur-value" class="control-value">10px</span>
+                    </div>
+                    <input type="range" class="slider" id="blur-slider" min="0" max="45" step="1" value="10">
+                </div>
+                <div class="control">
+                    <div class="control-label">
+                        <span class="control-name">亮度</span>
+                        <span id="brightness-value" class="control-value">0.80</span>
+                    </div>
+                    <input type="range" class="slider" id="brightness-slider" min="0" max="2" step="0.01" value="0.80">
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">文字</div>
+                <div class="control">
+                    <div class="control-label">
+                        <span class="control-name">大小</span>
+                        <span id="fontsize-value" class="control-value">160px</span>
+                    </div>
+                    <input type="range" class="slider" id="fontsize-slider" min="50" max="250" step="1" value="160">
+                </div>
+                <div class="control">
+                    <div class="control-label">
+                        <span class="control-name">水平位置</span>
+                        <span id="text-x-value" class="control-value">50%</span>
+                    </div>
+                    <input type="range" class="slider" id="text-x-slider" min="0" max="100" step="1" value="50">
+                </div>
+                <div class="control">
+                    <div class="control-label">
+                        <span class="control-name">垂直位置</span>
+                        <span id="text-y-value" class="control-value">50%</span>
+                    </div>
+                    <input type="range" class="slider" id="text-y-slider" min="0" max="100" step="1" value="50">
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-label">背景</div>
+                <div class="image-grid">
+                    <button class="image-btn active" data-src="1.jpeg">1</button>
+                    <button class="image-btn" data-src="2.jpeg">2</button>
+                    <button class="image-btn" data-src="3.jpeg">3</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="glass-text.js" defer></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const demoComponent = document.getElementById('interactive-demo');
+            let currentMode = 'clock';
+            let clockInterval;
+
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            const customTextGroup = document.getElementById('custom-text-group');
+            const customTextInput = document.getElementById('custom-text-input');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    toggleButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    currentMode = button.dataset.mode;
+
+                    if (currentMode === 'clock') {
+                        customTextGroup.classList.add('hidden');
+                        startClock();
+                    } else {
+                        customTextGroup.classList.remove('hidden');
+                        stopClock();
+                        customTextInput.focus();
+                        updateCustomText();
+                    }
+                });
+            });
+
+            customTextInput.addEventListener('input', updateCustomText);
+
+            function updateCustomText() {
+                if (currentMode === 'custom') {
+                    const text = customTextInput.value.trim() || 'Glass Text';
+                    demoComponent.textContent = text;
+                }
+            }
+
+            function updateClock() {
+                if (currentMode !== 'clock' || !demoComponent) return;
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                demoComponent.textContent = `${hours}:${minutes}`;
+            }
+
+            function startClock() {
+                stopClock();
+                updateClock();
+                clockInterval = setInterval(updateClock, 1000);
+            }
+
+            function stopClock() {
+                if (clockInterval) {
+                    clearInterval(clockInterval);
+                    clockInterval = null;
+                }
+            }
+
+            function setupSliderControl(sliderId, valueDisplayId, attributeName, unit = '', fixed = 0) {
+                const slider = document.getElementById(sliderId);
+                const valueDisplay = document.getElementById(valueDisplayId);
+
+                if (!slider || !valueDisplay) return;
+
+                slider.addEventListener('input', () => {
+                    const value = parseFloat(slider.value);
+                    valueDisplay.textContent = `${value.toFixed(fixed)}${unit}`;
+                    const attributeValue = unit === '%' ? `${value}%` : value;
+                    demoComponent.setAttribute(attributeName, attributeValue);
+                });
+            }
+
+            setupSliderControl('blur-slider', 'blur-value', 'blur', 'px');
+            setupSliderControl('brightness-slider', 'brightness-value', 'brightness', '', 2);
+            setupSliderControl('fontsize-slider', 'fontsize-value', 'font-size', 'px');
+            setupSliderControl('text-x-slider', 'text-x-value', 'text-x', '%');
+            setupSliderControl('text-y-slider', 'text-y-value', 'text-y', '%');
+
+            const imageButtons = document.querySelectorAll('.image-btn');
+
+            imageButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    imageButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const newImageSrc = button.dataset.src;
+                    demoComponent.setAttribute('image-src', newImageSrc);
+                });
+            });
+
+            startClock();
+
+            window.addEventListener('beforeunload', stopClock);
+        });
+    </script>
+
+</body>
+
+</html>
