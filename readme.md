@@ -63,17 +63,3 @@ glass-text {
   margin: 20px auto;
 }
 ```
-
-### 高级样式 (CSS Parts)
-
-组件内部的图片元素暴露了 `part` 属性，允许通过 `::part()` 伪元素进行更深层的样式定制。
-
-- `part="image"`: 同时选中背景图和毛玻璃效果图。
-- `part="clipped-image"`: 只选中应用了毛玻璃效果的图。
-
-```css
-/* 例如：给组件内的图片添加一个内阴影 */
-glass-text::part(image) {
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-}
-```

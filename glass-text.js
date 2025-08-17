@@ -12,8 +12,8 @@ template.innerHTML = `
     .clipped { clip-path: url(#svgTextPath); filter: var(--filter-style, blur(10px) brightness(1.2)); }
     slot { display: none !important; }
   </style>
-  <img class="background" part="image" src="" alt="背景图">
-  <img class="clipped" part="image clipped-image" src="" alt="毛玻璃文字效果图">
+  <img class="background" src="" alt="背景图">
+  <img class="clipped" src="" alt="毛玻璃文字效果图">
   <svg><defs><clipPath id="svgTextPath"><text dominant-baseline="middle" text-anchor="middle"></text></clipPath></defs></svg>
   <slot></slot>
 `;
@@ -23,8 +23,6 @@ template.innerHTML = `
  * @class GlassText
  * @description 一个自定义元素 <glass-text>，用于在背景图上显示带有毛玻璃效果的文字。
  * @element glass-text
- * @csspart image - 同时选择背景图和毛玻璃效果图。
- * @csspart clipped-image - 只选择毛玻璃效果图。
  */
 class GlassText extends HTMLElement {
   #host;
